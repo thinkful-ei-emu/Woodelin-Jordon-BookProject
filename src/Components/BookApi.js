@@ -65,17 +65,18 @@ class BookApi extends React.Component {
     }
 
 
-
+    console.log(this.state.books);
 
 
     render() {
 
+
         return (
             <div>
                 <Search handleSearch={this.handleSearch} />
-                <ul>
-                    <li>BOOK</li>
-                </ul>
+                {/* <ul id="booklist">
+                    {list}
+                </ul> */}
             </div>
         );
     }
