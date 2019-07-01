@@ -18,9 +18,6 @@ class BookApi extends React.Component {
         bookType: null,
     }
 
-    // static get booklist() {
-    //     return booklist;
-    // }
 
 
 
@@ -34,9 +31,26 @@ class BookApi extends React.Component {
                     throw new Error('Response invalid');
                 }
                 return response;
-            })
-            .then(response => response.json())
-            .then(data => console.log(data))
+            })/////////////
+            .then(response => response.json())////////
+            .then(data => {
+                console.log(data)
+                let books = data.items.map(book => {
+                    const title = book.volumeInfo.title;
+                    const authors = book.volumeInfo.authors;
+                    const description = book.volumeInfo.description;
+
+                    return {
+                        title,
+                        authors,
+                        description,
+                    }
+                })
+                console.log(books);
+                this.setState({
+                    books,
+                })
+            })///////
     }
 
 
@@ -56,12 +70,11 @@ class BookApi extends React.Component {
 
     render() {
 
-
         return (
             <div>
                 <Search handleSearch={this.handleSearch} />
                 <ul>
-                    {}
+                    <li>BOOK</li>
                 </ul>
             </div>
         );
