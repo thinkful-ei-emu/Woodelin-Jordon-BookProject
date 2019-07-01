@@ -14,17 +14,20 @@ class BookApi extends React.Component {
     state = {
         books: [],
         q: null,
-        filter: null,
-        bookType: null,
+        // filter: null,
+        // bookType: null,
     }
 
 
 
 
 
-    getBooks = (title) => {
-        let url = `https://www.googleapis.com/books/v1/volumes?q=${title}`;
+    getBooks = (title, bookType, printType) => {
 
+        let url = `https://www.googleapis.com/books/v1/volumes?q=${title}&filter=${bookType}&printType=${printType}`;
+
+
+        console.log(url);
         fetch(url)
             .then(response => {
                 if (!response.ok) {
@@ -39,11 +42,13 @@ class BookApi extends React.Component {
                     const title = book.volumeInfo.title;
                     const authors = book.volumeInfo.authors;
                     const description = book.volumeInfo.description;
+                    const image = book.volumeInfo.imageLinks.thumbnail;
 
                     return {
                         title,
                         authors,
                         description,
+                        image,
                     }
                 })
                 console.log(books);
@@ -57,26 +62,38 @@ class BookApi extends React.Component {
     handleSearch = (event) => {
         event.preventDefault();
         let title = event.target.search.value;
+        let bookType = event.target.bookType.value;
+        let printType = event.target.printType.value;
+
+
         console.log(title);
         this.setState({
             q: title,
+            filter: printType,
+            bookType: bookType,
         });
-        this.getBooks(title);
+        this.getBooks(title, bookType, printType);
     }
 
 
-    console.log(this.state.books);
+
 
 
     render() {
-
+        const list = this.state.books.map((item, index) => {
+            return (
+                <li key={index}>
+                    <Book title={item.title} authors={item.authors} description={item.description} image={item.image} />
+                </li>
+            )
+        })
 
         return (
             <div>
                 <Search handleSearch={this.handleSearch} />
-                {/* <ul id="booklist">
+                <ul id="booklist">
                     {list}
-                </ul> */}
+                </ul>
             </div>
         );
     }
