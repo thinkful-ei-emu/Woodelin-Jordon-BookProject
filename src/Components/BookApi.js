@@ -43,11 +43,13 @@ class BookApi extends React.Component {
                     const authors = book.volumeInfo.authors;
                     const description = book.volumeInfo.description;
                     const image = book.volumeInfo.imageLinks.thumbnail;
+                    const price = book.saleInfo.retailPrice ? book.saleInfo.retailPrice.amount : 'No Price Info';
 
                     return {
                         title,
                         authors,
                         description,
+                        price,
                         image,
                     }
                 })
@@ -64,7 +66,6 @@ class BookApi extends React.Component {
         let title = event.target.search.value;
         let bookType = event.target.bookType.value;
         let printType = event.target.printType.value;
-
 
         console.log(title);
         this.setState({
@@ -83,7 +84,7 @@ class BookApi extends React.Component {
         const list = this.state.books.map((item, index) => {
             return (
                 <li key={index}>
-                    <Book title={item.title} authors={item.authors} description={item.description} image={item.image} />
+                    <Book title={item.title} authors={item.authors} description={item.description} price={item.price} image={item.image} />
                 </li>
             )
         })
